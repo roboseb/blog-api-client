@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Postlist from "./components/Postlist";
 import Post from "./components/Post";
 import SignIn from "./components/SignIn";
+import ComputerBase from "./components/ComputerBase";
 
 function App() {
-    const [currentPost, setCurrentPost] = useState(null);
+    const [currentPost, setPost] = useState(null);
+    const [nextPost, setNextPost] = useState(null);
     const [user, setUser] = useState(null);
 
     // Check if user was previously signed in.
@@ -33,15 +35,25 @@ function App() {
             </div>
             <div id='main-content'>
 
-                <Postlist
-                    setCurrentPost={setCurrentPost}
-                />
+                <div id='monitor-back'></div>
+
+
+
                 <Post
                     user={user}
                     post={currentPost}
                 />
 
-                <SignIn 
+                <ComputerBase 
+                />
+
+                <Postlist
+                    setCurrentPost={setPost}
+                    // nextPost={nextPost}
+                    setNextPost={setNextPost}
+                />
+
+                <SignIn
                     setUser={setUser}
                 />
             </div>

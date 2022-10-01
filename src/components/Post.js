@@ -87,12 +87,12 @@ function Post(props) {
 
 
     return (
-        <div id="expanded-post">
+        <div id="post">
 
             <div className='post-username'>
                 {props.post !== null ? props.post.username : null}
             </div>
-            <div className='post-title'>
+            <div className='post-screen-title'>
                 {props.post !== null ? props.post.title : null}
             </div>
             <div className='post-content'>
