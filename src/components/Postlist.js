@@ -11,8 +11,6 @@ const WrappedPostlist = (props) => {
     let nextPost = null;
 
     const fetchPosts = () => {
-        console.log('fetching...');
-
         fetch("/api/posts", {
             method: "GET",
             headers: {
@@ -22,7 +20,6 @@ const WrappedPostlist = (props) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data.post_list[1]);
                 setPosts(data.post_list);
 
             })
@@ -34,14 +31,16 @@ const WrappedPostlist = (props) => {
     }, []);
 
     // Insert a disk into the computer.
-    const setDisk = (index, post) => {
+    const setDisk = (index, post, e) => {
         const diskList = Array.from(document.querySelectorAll('.post-wrap'));
 
-        // Remove case from disk if already inserted.
-        if (diskList[index].classList.contains('selected')) {
-            diskList[index].classList.add('decased');
-            nextPost = post;
-            return;
+        //Unload current post if changing disks.
+        if (post !== nextPost) {
+            props.setCurrentPost(null);
+
+            // Animate unlocking the disk slot.
+            const slot = document.getElementById('disk-slot');
+            slot.classList.remove('locked');
         }
 
         diskList.forEach((disk, diskIndex) => {
@@ -51,6 +50,20 @@ const WrappedPostlist = (props) => {
                 disk.classList.remove('selected', 'decased');
             }
         });
+
+        // Open disk if open btn clicked.
+        if (e.target.classList.contains('open-btn')) {
+
+            // Animated disk slot.
+            const slot = document.getElementById('disk-slot');
+            slot.classList.add('locked');
+
+            // Remove case from disk if already inserted.
+            if (diskList[index].classList.contains('selected')) {
+                diskList[index].classList.add('decased');
+                nextPost = post;
+            }
+        }
     }
 
     // Load an inserted disk into the computer.

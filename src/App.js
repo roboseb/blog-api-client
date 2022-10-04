@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import Postlist from "./components/Postlist";
 import Post from "./components/Post";
 import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
 import ComputerBase from "./components/ComputerBase";
+import showMessages from "./showError";
 
 function App() {
     const [currentPost, setPost] = useState(null);
@@ -26,13 +28,27 @@ function App() {
         setUser(null);
     }
 
+    // Animate monitor on post change.
+    useEffect(() => {
+        const post = document.getElementById('post');
+
+        const postItems = Array.from(post.children);
+
+        console.log(postItems);
+
+        postItems.forEach((item, index) => {
+            item.classList.remove('flickered');
+            void item.offsetWidth;
+
+            item.style.animationDelay = `${(index * 80) + 40}ms`;
+
+            item.classList.add('flickered');
+        });
+
+    }, [currentPost])
+
     return (
         <div id="app">
-            <div id='navbar'>
-                <div>Navbar</div>
-                <div>{user ? user.username : 'Sign in to comment!'}</div>
-                <button onClick={signOutUser}>Sign Out</button>
-            </div>
             <div id='main-content'>
 
                 <div id='monitor-back'></div>
@@ -42,19 +58,18 @@ function App() {
                 <Post
                     user={user}
                     post={currentPost}
+                    signOutUser={signOutUser}
+                    setUser={setUser}
                 />
 
-                <ComputerBase 
+
+                <ComputerBase
                 />
 
                 <Postlist
                     setCurrentPost={setPost}
                     // nextPost={nextPost}
                     setNextPost={setNextPost}
-                />
-
-                <SignIn
-                    setUser={setUser}
                 />
             </div>
 

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import showMessages from "../showError";
 
 function SignIn(props) {
 
     // Sign user in based on sign in fields.
     const signInUser = () => {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const username = document.getElementById('username-in').value;
+        const password = document.getElementById('password-in').value;
 
 
         console.log('signing in...');
@@ -23,7 +24,12 @@ function SignIn(props) {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                if (data.message) {
+                    showMessages([data.message]);
+                } else {
+                    showMessages(['Sign in succesful!'], true);
+                }
+
                 props.setUser(data.user);
                 localStorage.setItem('user', JSON.stringify(data.user))
 
@@ -36,15 +42,15 @@ function SignIn(props) {
     return (
         <div id="sign-in">
             <h1>Sign-In</h1>
+            <div className='form-inputs'>
+                <label htmlFor='username-in'>Username</label>
+                <input id='username-in' name='username' required></input>
 
-                <label htmlFor='username'>Username</label>
-                <input id='username' name='username' required></input>
-
-                <label htmlFor='password'>Password</label>
-                <input id='password' name='password' required></input>
+                <label htmlFor='password-in'>Password</label>
+                <input id='password-in' name='password' required></input>
 
                 <button type='submit' onClick={signInUser} >Submit</button>
-
+            </div>
 
         </div>
     );

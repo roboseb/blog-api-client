@@ -2,6 +2,9 @@ import CommentForm from "./CommentForm";
 import { useEffect, useState } from "react";
 import uniqid from "uniqid";
 
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+
 function Post(props) {
 
     const [comments, setComments] = useState(null);
@@ -85,70 +88,137 @@ function Post(props) {
         likeBox.innerText = newCount;
     }
 
+    // Show sign in panel.
+    const showSignIn = () => {
+        const panel = document.getElementById('sign-in');
+        panel.classList.toggle('shown');
 
-    return (
-        <div id="post">
+        // Offset second panel if both visible.
+        const shownPanels = Array.from(document.querySelectorAll('.shown'));
+        if (shownPanels.length > 1) {
+            panel.classList.add('offset');
+        }
+    }
 
-            <div className='post-username'>
-                {props.post !== null ? props.post.username : null}
-            </div>
-            <div className='post-screen-title'>
-                {props.post !== null ? props.post.title : null}
-            </div>
-            <div className='post-content'>
-                {props.post !== null ? props.post.content : null}
-            </div>
+    // Show sign up panel.
+    const showSignUp = () => {
+        const panel = document.getElementById('sign-up');
+        panel.classList.toggle('shown');
 
-            <button className='like-post-btn' onClick={(e) => likePost(props.post, e)}>
-                Like
-            </button>
+        // Offset second panel if both visible.
+        const shownPanels = Array.from(document.querySelectorAll('.shown'));
+        if (shownPanels.length > 1) {
+            panel.classList.add('offset');
+        }
+    }
 
-            <div className='like-count'>
-                {props.post !== null ? props.post.likes : null}
-            </div>
 
-            {comments !== null && props.post !== null ? comments.map((comment, index) => {
+    if (props.post) {
+        return (
 
-                if (props.post._id !== comment.post) return null
+            <div id="post">
+                <div id='navbar'>
+                    <div>{props.user ? `Signed in as ${props.user.username}` : 'Sign in to comment!'}</div>
+                    <button onClick={props.signOutUser}>Sign Out</button>
 
-                return <div
-                    className='comment'
-                    key={uniqid()}
-                >
+                    <button onClick={showSignIn}>Sign In</button>
+                    <button onClick={showSignUp}>Sign Up</button>
 
-                    <div className='comment-username'>
-                        {comment.username}
-                    </div>
+                    <SignIn setUser={props.setUser} />
 
-                    <div className='comment-pic'>
-                        {comment.pic}
-                    </div>
-
-                    <div className='comment-content'>
-                        {comment.comment}
-                    </div>
-
-                    <button className='like-comment-btn' onClick={(e) => likeComment(comment, e)}>
-                        Like
-                    </button>
-
-                    <div className='like-count'>{comment.likes}</div>
-
+                    <SignUp />
                 </div>
 
+                <div id='msg-box'></div>
+                <div className='post-username'>
+                    Posted by {props.post.username}
+                </div>
+                <div className='post-screen-title'>
+                    {props.post.title}
+                </div>
+                <div className='post-content'>
+                    {props.post.content}
+                </div>
 
-            }) :
-                <div> No comments yet! </div>
-            }
+                <button className='like-post-btn' onClick={(e) => likePost(props.post, e)}>
+                    Like
+                </button>
 
-            <CommentForm
-                post={props.post}
-                user={props.user}
-                fetchComments={fetchComments}
-            />
+                <div className='like-count'>
+                    {props.post.likes}
+                </div>
 
-        </div>
-    );
+                {comments !== null && props.post !== null ? comments.map((comment, index) => {
+
+                    if (props.post._id !== comment.post) return null
+
+                    return <div
+                        className='comment'
+                        key={uniqid()}
+                    >
+
+                        <div className='comment-username'>
+                            {comment.username}
+                        </div>
+
+                        <div className='comment-pic'>
+                            {comment.pic}
+                        </div>
+
+                        <div className='comment-content'>
+                            {comment.comment}
+                        </div>
+
+                        <button className='like-comment-btn' onClick={(e) => likeComment(comment, e)}>
+                            Like
+                        </button>
+
+                        <div className='like-count'>{comment.likes}</div>
+
+                    </div>
+
+
+                }) :
+                    <div> No comments yet! </div>
+                }
+
+                <CommentForm
+                    post={props.post}
+                    user={props.user}
+                    fetchComments={fetchComments}
+                />
+
+
+
+            </div>
+        )
+    } else {
+        return (
+            <div id='post'>
+                <div id='navbar'>
+                    <div>{props.user ? `Signed in as ${props.user.username}` : 'Sign in to comment!'}</div>
+                    <button onClick={props.signOutUser}>Sign Out</button>
+
+                    <button onClick={showSignIn}>Sign In</button>
+                    <button onClick={showSignUp}>Sign Up</button>
+
+                    <SignIn setUser={props.setUser} />
+
+                    <SignUp />
+                </div>
+                <div id='msg-box'>
+                    <div className='error'>NO DISK LOADED</div>
+                </div>
+
+                <div>Hey</div>
+                <div>You need to choose a disk</div>
+                <div> And then open it</div>
+                <div>And then load it </div>
+
+
+            </div>
+        )
+    }
 }
 
 export default Post;

@@ -24,9 +24,6 @@ body {
 
     position: relative;
     overflow: hidden;
-
-
-
 }
 
 #main-content {
@@ -36,17 +33,19 @@ body {
 
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     perspective: 1000px;
     perspective-origin: 50% 50%;
 }
 
 #navbar {
-    background-color: hotpink;
+    background-color: grey;
     color: black;
     padding: 5px;
 
     display: flex;
+    position: relative;
 }
 
 #postlist-wrap {
@@ -72,8 +71,42 @@ body {
     height: 15vh;
 }
 
-#sign-in {
-    display: none;
+#sign-in, #sign-up {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    background-color: grey;
+    transform: translateY(-100%);
+
+    padding: 5px;
+    transition: all 0.2s steps(2, end);
+}
+
+#sign-in>h1, #sign-up>h1 {
+    margin: 0px 0px 10px 0px;
+}
+
+#sign-in.shown, #sign-up.shown {
+    transform: translateY(100%);
+}
+
+#sign-in.shown {
+    transform: translateY(100%);
+}
+
+#sign-up {
+    transform: translate(-100%, -100%)
+}
+
+#sign-up.shown {
+    transform: translate(-100%, 100%)
+}
+
+.form-inputs {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 5px;
 }
 
 #monitor-back {
@@ -88,6 +121,7 @@ body {
 
 #post {
     flex-grow: 1;
+    max-height: 50vh;
 
     border: 20px solid var(--monitor-beige);
     border-radius: 20px;
@@ -95,6 +129,10 @@ body {
 
     transform-origin: top;
     transform: rotateX(-45deg);
+
+    position: relative;
+
+    overflow: scroll;
 }
 
 #computer-base {
@@ -473,25 +511,19 @@ body {
 
 
 #disk-slot {
-    height: 3rem;
+    height: 5rem;
     width: 9rem;
     background-color: black;
     position: relative;
+
+    transform: translateY(20%);
+    clip-path: polygon(100% 0, 100% 76%, 70% 77%, 48% 100%, 35% 76%, 0 75%, 0 0);
+
+    transition: all 1s;
 }
 
-#disk-slot::before {
-    content: '';
-    position: absolute;
-
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 95%);
-
-    height: 70%;
-    width: 40%;
-
-    background-color: black;
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
+#disk-slot.locked {
+    clip-path: polygon(100% 0, 55% 62%, 70% 77%, 48% 100%, 35% 76%, 49% 61%, 0 0);
 }
 
 .post-wrap {
@@ -553,8 +585,13 @@ body {
 }
 
 @keyframes frontfloat {
-    from {transform: rotateY(0deg) translateZ(100px);}
-    to {transform: rotateY(360deg) translateZ(100px);}
+    from {
+        transform: rotateY(0deg) translateZ(100px);
+    }
+
+    to {
+        transform: rotateY(360deg) translateZ(100px);
+    }
 }
 
 .decased .cube__face--right {
@@ -564,8 +601,13 @@ body {
 }
 
 @keyframes rightfloat {
-    from {transform: rotateY(90deg) translateZ(100px)}
-    to {transform: rotateY(450deg) translateZ(100px)}
+    from {
+        transform: rotateY(90deg) translateZ(100px)
+    }
+
+    to {
+        transform: rotateY(450deg) translateZ(100px)
+    }
 }
 
 .decased .cube__face--back {
@@ -575,8 +617,13 @@ body {
 }
 
 @keyframes backfloat {
-    from {transform: rotateY(180deg) translateZ(100px)}
-    to {transform: rotateY(540deg) translateZ(100px)}
+    from {
+        transform: rotateY(180deg) translateZ(100px)
+    }
+
+    to {
+        transform: rotateY(540deg) translateZ(100px)
+    }
 }
 
 .decased .cube__face--left {
@@ -586,8 +633,13 @@ body {
 }
 
 @keyframes leftfloat {
-    from {transform: rotateY(-90deg) translateZ(100px);}
-    to {transform: rotateY(-450deg) translateZ(100px);}
+    from {
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    to {
+        transform: rotateY(-450deg) translateZ(100px);
+    }
 }
 
 .decased .cube__face--top {
@@ -597,8 +649,13 @@ body {
 }
 
 @keyframes topfloat {
-    from {transform: rotateX(90deg) translateZ(100px);}
-    to {transform: rotateX(450deg) translateZ(100px);}
+    from {
+        transform: rotateX(90deg) translateZ(100px);
+    }
+
+    to {
+        transform: rotateX(450deg) translateZ(100px);
+    }
 }
 
 .decased .cube__face--bottom {
@@ -608,8 +665,13 @@ body {
 }
 
 @keyframes bottomfloat {
-    from {transform: rotateX(-90deg) translateZ(100px);}
-    to {transform: rotateX(-450deg) translateZ(100px);}
+    from {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+
+    to {
+        transform: rotateX(-450deg) translateZ(100px);
+    }
 }
 
 .decased .crystal-box-left {
@@ -619,8 +681,13 @@ body {
 }
 
 @keyframes crystalleftfloat {
-    from {transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(-45deg);}
-    to {transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(-405deg);}
+    from {
+        transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(-45deg);
+    }
+
+    to {
+        transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(-405deg);
+    }
 }
 
 .decased .crystal-box-right {
@@ -630,8 +697,13 @@ body {
 }
 
 @keyframes crystalrightfloat {
-    from {transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(45deg);}
-    to {transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(405deg);}
+    from {
+        transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(45deg);
+    }
+
+    to {
+        transform: translateZ(6rem) translateY(15%) rotateX(20deg) rotateY(405deg);
+    }
 }
 
 .decased .crystal1 {
@@ -639,9 +711,17 @@ body {
 }
 
 @keyframes crystalglow1 {
-    0% {filter: brightness(1)}
-    50% {filter: brightness(0.5)}
-    100% {filter: brightness(1) }
+    0% {
+        filter: brightness(1)
+    }
+
+    50% {
+        filter: brightness(0.5)
+    }
+
+    100% {
+        filter: brightness(1)
+    }
 }
 
 .decased .crystal2 {
@@ -649,8 +729,104 @@ body {
 }
 
 @keyframes crystalglow2 {
-    0% {filter: brightness(0.5)}
-    50% {filter: brightness(0.2)}
-    100% {filter: brightness(0.5)}
+    0% {
+        filter: brightness(0.5)
+    }
+
+    50% {
+        filter: brightness(0.2)
+    }
+
+    100% {
+        filter: brightness(0.5)
+    }
 }
 
+.open-btn-box {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 5px;
+}
+
+.open-btn-box>button {
+    width: 100%;
+    height: 100%;
+
+    cursor: pointer;
+
+
+    border: none;
+
+    transform: rotateX(180deg);
+    background-color: var(--cartridge-sides);
+    box-shadow: -0px 0px 0px inset black;
+    color: var(--cartridge-sides);
+}
+
+.selected .open-btn-box>button {
+    transform: rotateX(0deg);
+    background-color: white;
+    color: black;
+    box-shadow: -3px -3px 5px inset rgba(0, 0, 0, 0.493);
+
+    animation: btnflip 1.7s;
+}
+
+@keyframes btnflip {
+    0% {
+        transform: rotateX(180deg);
+        background-color: var(--cartridge-sides);
+        color: var(--cartridge-sides);
+        box-shadow: -0px -0px 0px inset rgba(0, 0, 0, 0.493);
+    }
+
+    60% {
+        transform: rotateX(180deg);
+        background-color: var(--cartridge-sides);
+        color: var(--cartridge-sides);
+        box-shadow: -0px -0px 0px inset rgba(0, 0, 0, 0.493);
+    }
+
+    100% {
+        transform: rotateX(0deg);
+        background-color: white;
+        color: black;
+        box-shadow: -3px -3px 5px inset rgba(0, 0, 0, 0.493);
+    }
+}
+
+.selected .open-btn-box>button:hover {
+    background-color: rgb(218, 218, 218);
+}
+
+.open-btn-box>button:active {
+    box-shadow: -3px 3px 10px inset black;
+}
+
+.flickered {
+    animation: newpost 0.5s steps(1, end);
+}
+
+@keyframes newpost {
+    0% {filter: opacity(1); transform: translateX(50%);}
+
+    33% {filter: opacity(0); transform: translateX(0%);}
+
+    80% {filter: opacity(0.5); transform: translateX(25%);}
+
+    100% {filter: opacity(1); transform: translateX(0%);}
+}
+
+.error {
+    color: rgb(255, 43, 43);
+    animation: error 2s steps(3, end) infinite;
+}
+
+@keyframes error {
+    0%  {filter: opacity(1);}
+    50%  {filter: opacity(0);}
+    100%  {filter: opacity(1);}
+}
