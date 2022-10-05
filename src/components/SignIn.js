@@ -11,7 +11,7 @@ function SignIn(props) {
 
         console.log('signing in...');
 
-        fetch("/api/sign-in", {
+        fetch("https://vast-brushlands-96580.herokuapp.com/api/sign-in", {
             method: "POST",
             headers: {
                 Accept: "application/json",

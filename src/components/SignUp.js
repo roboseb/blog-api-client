@@ -10,11 +10,7 @@ function SignUp(props) {
         const password = document.getElementById('password-up').value;
         const confirmPassword = document.getElementById('confirm-password-up').value;
 
-
-
-        console.log('signing up...');
-
-        fetch("/api/sign-up", {
+        fetch("https://vast-brushlands-96580.herokuapp.com/api/sign-up", {
             method: "POST",
             headers: {
                 Accept: "application/json",
