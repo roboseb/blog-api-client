@@ -47,7 +47,7 @@ function SignIn(props) {
                 <input id='username-in' name='username' required></input>
 
                 <label htmlFor='password-in'>Password</label>
-                <input id='password-in' name='password' required></input>
+                <input type='password' id='password-in' name='password' required></input>
 
                 <button type='submit' onClick={signInUser} >Submit</button>
             </div>

@@ -10,9 +10,8 @@ function Post(props) {
     const [comments, setComments] = useState(null);
 
     const fetchComments = () => {
-        console.log('fetching comments...');
 
-        fetch("/api/comments", {
+        fetch("https://vast-brushlands-96580.herokuapp.com/api/comments", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -21,7 +20,6 @@ function Post(props) {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setComments(data.comment_list);
 
             })
@@ -35,9 +33,8 @@ function Post(props) {
 
     // Send POST request for liking a comment.
     const likeComment = (comment, e) => {
-        console.log('liking comment...');
 
-        fetch("/api/comments/like", {
+        fetch("https://vast-brushlands-96580.herokuapp.com/api/comments/like", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -49,7 +46,6 @@ function Post(props) {
         })
             .then(res => res.json())
             .then(data => {
-                console.log('comment liked succesfully')
                 updateLikeDisplay(e.target);
             })
             .catch(err => console.log('error: ' + err));
@@ -57,9 +53,8 @@ function Post(props) {
 
     // Send POST request for liking a post.
     const likePost = (post, e) => {
-        console.log('liking post...');
 
-        fetch("/api/posts/like", {
+        fetch("https://vast-brushlands-96580.herokuapp.com/api/posts/like", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -71,7 +66,6 @@ function Post(props) {
         })
             .then(res => res.json())
             .then(data => {
-                console.log('post liked succesfully')
                 updateLikeDisplay(e.target);
             })
             .catch(err => console.log('error: ' + err));
@@ -112,6 +106,14 @@ function Post(props) {
         }
     }
 
+    // Convert a date object to a readable format.
+    const convertDate = (date) => {
+        const options = { month: 'short', day: 'numeric' };
+        const newDate = new Date(date);
+
+        return newDate.toLocaleDateString("en-US", options);
+    }
+
 
     if (props.post) {
         return (
@@ -119,74 +121,80 @@ function Post(props) {
             <div id="post">
                 <div id='navbar'>
                     <div>{props.user ? `Signed in as ${props.user.username}` : 'Sign in to comment!'}</div>
-                    <button onClick={props.signOutUser}>Sign Out</button>
+                    <div id='nav-btns'>
+                        <button onClick={props.signOutUser}>Sign Out</button>
 
-                    <button onClick={showSignIn}>Sign In</button>
-                    <button onClick={showSignUp}>Sign Up</button>
+                        <button onClick={showSignIn}>Sign In</button>
+                        <button onClick={showSignUp}>Sign Up</button>
+                    </div>
+
 
                     <SignIn setUser={props.setUser} />
 
                     <SignUp />
                 </div>
-
-                <div id='msg-box'></div>
-                <div className='post-username'>
-                    Posted by {props.post.username}
-                </div>
-                <div className='post-screen-title'>
-                    {props.post.title}
-                </div>
-                <div className='post-content'>
-                    {props.post.content}
-                </div>
-
-                <button className='like-post-btn' onClick={(e) => likePost(props.post, e)}>
-                    Like
-                </button>
-
-                <div className='like-count'>
-                    {props.post.likes}
-                </div>
-
-                {comments !== null && props.post !== null ? comments.map((comment, index) => {
-
-                    if (props.post._id !== comment.post) return null
-
-                    return <div
-                        className='comment'
-                        key={uniqid()}
-                    >
-
-                        <div className='comment-username'>
-                            {comment.username}
-                        </div>
-
-                        <div className='comment-pic'>
-                            {comment.pic}
-                        </div>
-
-                        <div className='comment-content'>
-                            {comment.comment}
-                        </div>
-
-                        <button className='like-comment-btn' onClick={(e) => likeComment(comment, e)}>
-                            Like
-                        </button>
-
-                        <div className='like-count'>{comment.likes}</div>
-
+                <div id='computer-content'>
+                    <div id='msg-box'></div>
+                    <div className='post-screen-title'>
+                        {props.post.title}
                     </div>
 
+                    <div className='post-username'>
+                        Posted by {props.post.username} on {convertDate(props.post.postDate)}
+                    </div>
 
-                }) :
-                    <div> No comments yet! </div>
-                }
+                    <div className='post-content'>
+                        {props.post.content}
+                    </div>
 
-                <CommentForm
-                    post={props.post}
-                    user={props.user}
-                    fetchComments={fetchComments}
-                />
+                    <button className='like-post-btn' onClick={(e) => likePost(props.post, e)}>
+                        Like <span className='like-count'>{props.post.likes}</span>
+                    </button>
+
+
+                    <CommentForm
+                        post={props.post}
+                        user={props.user}
+                        fetchComments={fetchComments}
+                    />
+
+                    {comments !== null && props.post !== null ? comments.map((comment, index) => {
+
+                        if (props.post._id !== comment.post) return null
+
+                        return <div
+                            className='comment'
+                            key={uniqid()}
+                        >
+
+                            <div className='comment-username'>
+                                <div>
+                                    <span>{comment.pic}</span>
+                                    {comment.username}
+                                </div>
+
+                                <div className='comment-date'>{convertDate(comment.postDate)}</div>
+                            </div>
+
+                            <div className='comment-content'>
+                                {comment.comment}
+                            </div>
+
+                            <button className='like-comment-btn' onClick={(e) => likeComment(comment, e)}>
+                                Like <span className='like-count'>{comment.likes}</span>
+                            </button>
+
+
+                        </div>
+
+
+                    }) :
+                        <div> No comments yet! </div>
+                    }
+
+                </div>
+
+
 
 
 
@@ -197,23 +205,31 @@ function Post(props) {
             <div id='post'>
                 <div id='navbar'>
                     <div>{props.user ? `Signed in as ${props.user.username}` : 'Sign in to comment!'}</div>
-                    <button onClick={props.signOutUser}>Sign Out</button>
 
-                    <button onClick={showSignIn}>Sign In</button>
-                    <button onClick={showSignUp}>Sign Up</button>
+                    <div id='nav-btns'>
+                        <button onClick={props.signOutUser}>Sign Out</button>
+
+                        <button onClick={showSignIn}>Sign In</button>
+                        <button onClick={showSignUp}>Sign Up</button>
+                    </div>
+
 
                     <SignIn setUser={props.setUser} />
 
                     <SignUp />
                 </div>
-                <div id='msg-box'>
-                    <div className='error'>NO DISK LOADED</div>
+
+                <div id='computer-content'>
+                    <div id='msg-box'>
+                        <div className='error'>NO DISK LOADED</div>
+                    </div>
+
+                    <div>Hey</div>
+                    <div>You need to choose a disk</div>
+                    <div> And then open it</div>
+                    <div>And then load it </div>
                 </div>
 
-                <div>Hey</div>
-                <div>You need to choose a disk</div>
-                <div> And then open it</div>
-                <div>And then load it </div>
 
 
             </div>

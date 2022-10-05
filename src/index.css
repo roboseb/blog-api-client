@@ -6,21 +6,37 @@
     --monitor-beige: rgb(247, 231, 219);
 }
 
+@font-face {
+    font-family: commodore;
+    src: url('/public/fonts/Commodore-64-v6.3.TTF');
+}
+
+@font-face {
+    font-family: computer;
+    src: url('/public/fonts/Computerfont.ttf');
+}
+
+@font-face {
+    font-family: icons;
+    src: url('/public/fonts/pixel_dingbats-7.ttf');
+}
+
 body {
     margin: 0;
     color: white;
 
-    font-family: sans-serif;
+    font-family: commodore, sans-serif;
 }
 
 #app {
     height: 100vh;
     width: 100vw;
 
-    background-color: rgb(44, 44, 44);
+    background-color: rgb(27, 27, 27);
 
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     position: relative;
     overflow: hidden;
@@ -37,6 +53,9 @@ body {
 
     perspective: 1000px;
     perspective-origin: 50% 50%;
+
+    width: 115vw;
+    max-width: 800px;
 }
 
 #navbar {
@@ -46,6 +65,12 @@ body {
 
     display: flex;
     position: relative;
+    justify-content: space-between;
+}
+
+#navbar>#nav-btns {
+    display: flex;
+    gap: 5px;
 }
 
 #postlist-wrap {
@@ -61,7 +86,7 @@ body {
 }
 
 #postlist {
-    background-color: rgb(0, 0, 255);
+    background-color: rgba(255, 255, 255, 0);
 
 
     padding-bottom: 80px;
@@ -75,6 +100,7 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
+    z-index: 1;
 
     background-color: grey;
     transform: translateY(-100%);
@@ -100,7 +126,7 @@ body {
 }
 
 #sign-up.shown {
-    transform: translate(-100%, 100%)
+    transform: translate(0%, 200%)
 }
 
 .form-inputs {
@@ -111,7 +137,7 @@ body {
 
 #monitor-back {
     height: 10vh;
-    margin: 0px 5px -10px 5px;
+    margin: 0px 5px -20px 5px;
 
     background-color: var(--monitor-beige);
     filter: brightness(0.7);
@@ -120,8 +146,8 @@ body {
 }
 
 #post {
-    flex-grow: 1;
-    max-height: 50vh;
+    height: 45vh;
+    max-height: 45vh;
 
     border: 20px solid var(--monitor-beige);
     border-radius: 20px;
@@ -130,13 +156,50 @@ body {
     transform-origin: top;
     transform: rotateX(-45deg);
 
-    position: relative;
+    font-size: 1.5rem;
 
+    position: relative;
+    overflow: hidden;
+
+    background-color: rgb(37, 37, 37);
+}
+
+#computer-content {
+    height: 100%;
     overflow: scroll;
 }
 
+.post-screen-title {
+    font-size: 3rem;
+    margin: 10px 0px 0px 0px;
+}
+
+.post-username {
+    margin: 0px 0px 30px 0px;
+    color: rgb(204, 204, 204);
+    font-size: 1.2rem;
+}
+
+.post-content {
+    margin-bottom: 30px;
+}
+
+.comment-username {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-username span {
+    font-family: icons, sans-serif;
+}
+
+#post button {
+    font-family: commodore, sans-serif;
+}
+
 #computer-base {
-    height: 15vh;
+    height: 30vh;
     margin: -70px 50px 0px 50px;
 
     margin-top: -70px;
@@ -160,9 +223,12 @@ body {
 }
 
 #computer-base>.cube__face--bottom {
+    box-sizing: border-box;
+    border: 15px solid black;
     background-color: var(--monitor-beige);
     filter: brightness(0.7);
-    transform: translateZ(0px) translateY(50%) rotateX(-90deg);
+
+    transform: translateZ(-70px) translateY(51%) rotateX(-90deg);
 }
 
 .post {
@@ -179,12 +245,13 @@ body {
     transform: translateX(-50%);
 
     width: 6rem;
-    height: 1.5rem;
+    height: 2.7rem;
+    font-size: 1rem;
 
     padding: 5px;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 
     background-color: white;
     color: black;
@@ -211,12 +278,30 @@ body {
 }
 
 #comment-form {
-    background-color: blue;
+    background-color: rgb(32, 32, 32);
+    padding: 5px;
+    margin: 10px 0px;
+
+    display: flex;
+    gap: 10px;
 }
 
 .comment {
-    background-color: burlywood;
-    color: black;
+    background-color: rgb(0, 0, 0);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.comment-username {
+    font-size: 2rem;
+    color: rgb(200, 200, 200);
 }
 
 .cube-wrap {
@@ -231,7 +316,7 @@ body {
 
     transition: all 0.3s;
 
-    transform: translateZ(6rem) translateX(40%) rotateY(-80deg) rotateZ(70deg);
+    transform: translateZ(6rem) translateX(25%) translateY(-15%) rotateY(-80deg) rotateZ(60deg);
 }
 
 .cube:hover {
@@ -468,15 +553,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
 
     height: 15vh;
     width: 100%;
     background-color: rgba(255, 0, 0, 0);
-    padding: 50px;
+    padding: 30px;
     margin-bottom: 2rem;
 
-    transform: rotateX(25deg);
+    transform: rotateX(25deg) translateY(-75%);
 
     perspective: 1000px;
     perspective-origin: 50% 50%;
@@ -491,6 +576,9 @@ body {
     background-color: khaki;
 
     transition: background-color 0.2s;
+    font-family: computer, sans-serif;
+
+    transform: translateY(-10%);
 }
 
 #disk-controls>button:active {
@@ -502,7 +590,7 @@ body {
 }
 
 #disk-controls>button>div {
-    font-size: 3rem;
+    font-size: 5rem;
 }
 
 #disk-controls>button:active>div {
@@ -544,29 +632,29 @@ body {
 }
 
 .selected>.cube {
-    transform: translateZ(4rem) translateY(-60%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
+    transform: translateZ(4rem) translateY(-115%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
     animation: click 1s;
 }
 
 @keyframes click {
     0% {
-        transform: translateZ(4rem) translateY(-60%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
+        transform: translateZ(4rem) translateY(-115%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
     }
 
     70% {
-        transform: translateZ(6rem) translateY(-60%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
+        transform: translateZ(6rem) translateY(-115%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
     }
 
     75% {
-        transform: translateZ(6rem) translateY(-60%) translateX(-42%) rotateY(40deg) rotateX(-55deg);
+        transform: translateZ(6rem) translateY(-115%) translateX(-42%) rotateY(40deg) rotateX(-55deg);
     }
 
     90% {
-        transform: translateZ(6rem) translateY(-60%) translateX(-42%) rotateY(0deg) rotateX(-40deg);
+        transform: translateZ(6rem) translateY(-115%) translateX(-42%) rotateY(0deg) rotateX(-40deg);
     }
 
     100% {
-        transform: translateZ(4rem) translateY(-60%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
+        transform: translateZ(4rem) translateY(-115%) translateX(-42%) rotateY(20deg) rotateX(-55deg);
     }
 }
 
@@ -764,6 +852,8 @@ body {
     background-color: var(--cartridge-sides);
     box-shadow: -0px 0px 0px inset black;
     color: var(--cartridge-sides);
+
+    font-family: computer, sans-serif;
 }
 
 .selected .open-btn-box>button {
@@ -807,15 +897,15 @@ body {
 }
 
 .flickered {
-    animation: newpost 0.5s steps(1, end);
+    animation: newpost 0.3s steps(2, end);
 }
 
 @keyframes newpost {
-    0% {filter: opacity(1); transform: translateX(50%);}
+    0% {filter: opacity(1); transform: translateX(5%);}
 
-    33% {filter: opacity(0); transform: translateX(0%);}
+    33% {filter: opacity(0); transform: translateX(-5%);}
 
-    80% {filter: opacity(0.5); transform: translateX(25%);}
+    80% {filter: opacity(0.5); transform: translateX(3%);}
 
     100% {filter: opacity(1); transform: translateX(0%);}
 }
@@ -829,4 +919,8 @@ body {
     0%  {filter: opacity(1);}
     50%  {filter: opacity(0);}
     100%  {filter: opacity(1);}
+}
+
+.like-comment-btn, .like-post-btn {
+    font-size: 2rem;
 }

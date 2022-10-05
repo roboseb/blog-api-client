@@ -1,3 +1,5 @@
+import showMessages from "../showError";
+
 function CommentForm(props) {
 
     // Sign user in based on sign in fields.
@@ -21,6 +23,15 @@ function CommentForm(props) {
                 // Update comments
                 props.fetchComments();
 
+                console.log(data);
+
+                // Show message, if any.
+                if (data.errors) {
+                    showMessages(data.errors);
+                } else {
+                    showMessages(['Comment posted!'], true);
+                }
+
             })
             .catch(err => console.log('error: ' + err));
 
@@ -38,7 +49,7 @@ function CommentForm(props) {
                 </div>
                 :
 
-                <div>
+                <div id='comment-form'>
                     Please sign in to comment.
                 </div>
 

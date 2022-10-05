@@ -18,10 +18,10 @@ const NewDisk = (props) => {
 
         // Process likes and post length into fractions.
         let likeFr = likes / 50;
-        let lengthFr = length / 70;
+        let lengthFr = length / 1200;
 
         if (likeFr > 1) likeFr = 1;
-        if (lengthFr > 1) likeFr = 1;
+        if (lengthFr > 1) lengthFr = 1;
 
 
         // Convert likes and length into R and B values.

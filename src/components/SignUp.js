@@ -48,10 +48,10 @@ function SignUp(props) {
                 <input id='username-up' name='username' required></input>
 
                 <label htmlFor='password-up'>Password</label>
-                <input id='password-up' name='password' required></input>
+                <input type='password' id='password-up' name='password' required></input>
 
                 <label htmlFor='confirm-password-up'>Confirm</label>
-                <input id='confirm-password-up' name='confirmPassword' required></input>
+                <input type='password' id='confirm-password-up' name='confirmPassword' required></input>
 
                 <button type='submit' onClick={signUpUser} >Submit</button>
             </div>

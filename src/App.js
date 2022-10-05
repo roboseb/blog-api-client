@@ -34,8 +34,6 @@ function App() {
 
         const postItems = Array.from(post.children);
 
-        console.log(postItems);
-
         postItems.forEach((item, index) => {
             item.classList.remove('flickered');
             void item.offsetWidth;
