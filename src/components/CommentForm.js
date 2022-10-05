@@ -6,7 +6,7 @@ function CommentForm(props) {
     const postComment = () => {
         const comment = document.getElementById('comment').value;
 
-        fetch("https://vast-brushlands-96580.herokuapp.com/api/api/comments/new", {
+        fetch("https://vast-brushlands-96580.herokuapp.com/api/comments/new", {
             method: "POST",
             headers: {
                 Accept: "application/json",
