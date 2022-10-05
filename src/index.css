@@ -122,11 +122,12 @@ body {
 }
 
 #sign-up {
-    transform: translate(-100%, -100%)
+    right: initial;
+    left: 0;
 }
 
 #sign-up.shown {
-    transform: translate(0%, 200%)
+    transform: translate(0%, 100%)
 }
 
 .form-inputs {
@@ -659,7 +660,7 @@ body {
 }
 
 .decased {
-    /* filter: opacity(0.6); */
+    pointer-events: none;
 }
 
 .decased .cube__face, .decased .crystal-box-left, .decased .crystal-box-right {
